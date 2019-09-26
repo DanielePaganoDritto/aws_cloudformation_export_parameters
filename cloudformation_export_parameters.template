@@ -67,12 +67,12 @@
           ]
         },
         "ManagedPolicyArns": [ "arn:aws:iam::aws:policy/AmazonEC2ReadOnlyAccess" ],
-        "RoleName": {"Fn::Join" : ["_", [{"Ref": "Project"}, {"Ref": "Environment"}, "EC2"]]}
+        "RoleName": {"Fn::Join" : ["_", [{"Ref": "Environment"}, {"Ref": "Project"}, "EC2"]]}
       }
     }
   },
   "Outputs": {
-    "SetRoleARN": {
+    "RoleARN": {
       "Description": "Create EC2 Instances Basic Role",
       "Value": { "Fn::GetAtt": [ "SetRole", "Arn"]}
     },
