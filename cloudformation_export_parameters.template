@@ -1,0 +1,91 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Description": "iam_role.template - AutoCreate IAM Roles for TFS EAR-IT",
+  "Metadata": {
+    "Jetstream": {
+      "Date": "2019-09-26 17:00",
+      "Commit": "6ed218e531ce278e2e9f420c7535a95d4d92af0b"
+    },
+    "AWS::CloudFormation::Interface": {
+      "ParameterGroups": [
+        {   
+          "Parameters": [
+            "Project"  
+          ],
+            "Label": {
+            "default": "Project Name"
+          }
+        },
+        {   
+          "Parameters": [
+            "Environment"  
+          ],
+            "Label": {
+            "default": "Environment"
+          }
+        }
+      ],
+      "ParameterLabels": {
+        "Project": {
+          "default": "Project Name:"
+        },
+        "Environment": {
+          "default": "Environment:"
+        }
+      }
+    }
+  },
+  "Parameters": {
+    "Project": {
+      "Default": "",
+      "Type": "String",
+      "Description": "Name of the Project"
+    },
+    "Environment": {
+      "Default": "DEV",
+      "Type": "String",
+      "Description": "Application environment for which this network is being created. e.g. Development/Production.",
+      "AllowedValues": [
+        "DEV",
+        "QA",
+        "PR"
+      ]
+    }
+  },
+  "Resources": {
+    "SetRole": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Principal": { "Service": [ "ec2.amazonaws.com" ] },
+              "Action": [ "sts:AssumeRole" ]
+            }
+          ]
+        },
+        "ManagedPolicyArns": [ "arn:aws:iam::aws:policy/AmazonEC2ReadOnlyAccess" ],
+        "RoleName": {"Fn::Join" : ["_", [{"Ref": "Project"}, {"Ref": "Environment"}, "EC2"]]}
+      }
+    }
+  },
+  "Outputs": {
+    "SetRoleARN": {
+      "Description": "Create EC2 Instances Basic Role",
+      "Value": { "Fn::GetAtt": [ "SetRole", "Arn"]}
+    },
+    "Project": {
+      "Description": "Project Name",
+      "Value": {"Ref": "Project"},
+      "Export": { "Name": "Project"}
+    },
+    "Environment": {
+      "Description": "Environment",
+      "Value": {"Ref": "Environment"},
+      "Export": { "Name": "Environment"}
+    }
+  }
+}
+
