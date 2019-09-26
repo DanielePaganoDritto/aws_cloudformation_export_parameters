@@ -8,3 +8,9 @@ it also creates an IAM Role to be used as a basic EC2 Role when creating instanc
 
 - RoleName: [Environment]_[Project]_EC2
 - Default Role Policy: Ec2ReadOnlyAccess
+
+Finally it show the following Outputs:
+
+- RoleARN
+- Project
+- Environment
