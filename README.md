@@ -1,4 +1,4 @@
-# cloudformation_export_parameters
+# aws_cloudformation_export_parameters
 Cloudformation Template used to define and exports basic parameters to be reused for naming convention puproses. It allows to set and exports the following parameters:
 
 - Project Name
